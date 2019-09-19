@@ -9,40 +9,70 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private EditText userValues;
+    private TextView resultsText;
+    private Button calculateBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button calculateBtn = (Button) findViewById(R.id.calculateBtn);
-        calculateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText num1EditText = (EditText) findViewById(R.id.num1editText);
-                EditText num2EditText = (EditText) findViewById(R.id.num2editText);
-                EditText num3EditText = (EditText) findViewById(R.id.num3editText);
+        calculateBtn = (Button) findViewById(R.id.calculateBtn);
+        userValues = (EditText) findViewById(R.id.userValues);
+        resultsText = (TextView) findViewById(R.id.resultsText);
 
-                TextView resultsText = (TextView) findViewById(R.id.resultsText);
+        // on click listeners...
+        calculateBtn.setOnClickListener(this);
 
-                int num1 = Integer.parseInt(num1EditText.getText().toString());
-                int num2 = Integer.parseInt(num2EditText.getText().toString());
-                int num3 = Integer.parseInt(num3EditText.getText().toString());
-
-                //need to test cases to see if all 3 sides even make a triangle
-                //need to add cases to test all combination of sides
-
-                if (num1 == num2 && num1 == num3){
-                  resultsText.setText("Equilateral");
-                }
-                else if (num1 == num2 || num1 == num3){
-                  resultsText.setText("Isosceles");
-                }
-                else{
-                  resultsText.setText("Scalene");
-                }
-            }
-        });
     }
+
+    @Override
+    public void onClick(View view) {
+
+        // calculate button
+        if (view == calculateBtn) {
+
+            // attempt to parse the input
+            float[] floatArr = parseUserInput();
+            if (floatArr == null) {
+                // disp error
+                resultsText.setText("Invalid input.  Try Again");
+                return;
+            }
+            // valid input, perform calculation
+            resultsText.setText("Good Input");
+
+        }
+        // add other buttons here if needed...
+    }
+
+    public float[] parseUserInput() {
+
+        String userInput = userValues.getText().toString();
+        String[] stringArr;
+
+        // the input string should contain a delimiter of "," or " ", anything else is an invalid delimiter for this app
+        stringArr = userInput.contains(",") ? userInput.split(",") : userInput.split(" ");
+
+        if (stringArr.length != 3) return null; // invalid input
+
+        // begin attempt to convert values to float
+        float[] floatArr = new float[3];
+
+        for(int i = 0; i < 3; ++i) {
+            try {
+                floatArr[i] = Float.parseFloat(stringArr[i]); // throws exception if can not parse
+                if (floatArr[i] < 1.0 || floatArr[i] > 100.0)
+                    throw new Exception("float out of range (" + floatArr[i] + ")");
+            }catch (Exception e) {
+                System.out.println(e);
+                return null; // invalid input
+            }
+        }
+        return floatArr;
+    }
+
 }
