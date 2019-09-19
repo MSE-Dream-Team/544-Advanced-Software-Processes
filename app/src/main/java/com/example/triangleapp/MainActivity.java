@@ -42,9 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resultsText.setText("Invalid input.  Try Again");
                 return;
             }
-            // valid input, perform calculation
-            resultsText.setText("Good Input");
-
+            // Valid input; get results and display to screen
+            resultsText.setText(new Triangle(floatArr).getTriangleType());
         }
         // add other buttons here if needed...
     }
@@ -74,5 +73,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return floatArr;
     }
-
 }
