@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calculateBtn.setOnClickListener(this);
         exitBtn.setOnClickListener(this);
 
+        // on key listeners...
+        userValues.setOnKeyListener(setOnKeyEnter());
+
     }
 
     @Override
@@ -43,15 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // calculate button
         if (view == calculateBtn) {
 
-            // attempt to parse the input
-            float[] floatArr = parseUserInput();
-            if (floatArr == null) {
-                // disp error
-                resultsText.setText("Invalid input.  Try Again");
-                return;
-            }
-            // Valid input; get results and display to screen
-            resultsText.setText(new Triangle(floatArr).getTriangleType());
+            calculate();
+
         }
 
         //exit button
@@ -129,5 +126,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         return floatArr;
+    }
+
+    private void calculate() {
+        // attempt to parse the input
+        float[] floatArr = parseUserInput();
+        if (floatArr == null) {
+            // disp error
+            resultsText.setText("Invalid input.  Try Again");
+            return;
+        }
+        // Valid input; get results and display to screen
+        resultsText.setText(new Triangle(floatArr).getTriangleType());
+    }
+
+    private View.OnKeyListener setOnKeyEnter() {
+        return new View.OnKeyListener() {
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                //If the keyevent is KEYCODE_ENTER
+                System.out.println("*********" + keyEvent.getAction()+ "*****" + keyEvent.getKeyCode());
+//                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+
+                // simulate the press of the calculate button and call "calcaulate()"
+                    System.out.println("ENTER PRESSED");
+                    calculate();
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 }
