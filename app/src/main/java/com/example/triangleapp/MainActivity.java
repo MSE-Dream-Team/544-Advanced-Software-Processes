@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             System.out.println(e.getMessage());
             // display invalid input
-            resultsText.setText("Invalid input.  Try Again");
+            resultsText.setText(e.getMessage() + "\nTry Again");
         }
 
     }
