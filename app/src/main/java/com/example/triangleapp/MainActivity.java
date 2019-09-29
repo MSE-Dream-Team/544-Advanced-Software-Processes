@@ -102,54 +102,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         byeDialog.show();
     }
 
-     private float[] parseUserInput() {
+     private float[] parseUserInput() throws Exception {
 
-        String userInput = userValues.getText().toString();
-        String[] stringArr;
+         String userInput = userValues.getText().toString();
 
-        // the input string should contain a delimiter of "," or " ", anything else is an invalid delimiter for this app
-        stringArr = userInput.contains(",") ? userInput.split(",") : userInput.split(" ");
+         if (userInput.equals("0")) return null; // the string equal to character 0, return null to exit app
 
-        if (stringArr.length != 3) return null; // invalid input
+         String[] stringArr;
 
-        // begin attempt to convert values to float
-        float[] floatArr = new float[3];
+         try {
+             // the input string should contain a delimiter of "," or " ", anything else is an invalid delimiter for this app
+             stringArr = userInput.contains(",") ? userInput.split(",") : userInput.split(" ");
 
-        for(int i = 0; i < 3; ++i) {
-            try {
-                floatArr[i] = Float.parseFloat(stringArr[i]); // throws exception if can not parse
-                if (floatArr[i] < 1.0 || floatArr[i] > 100.0)
-                    throw new Exception("float out of range (" + floatArr[i] + ")");
-            }catch (Exception e) {
-                System.out.println(e);
-                return null; // invalid input
-            }
-        }
-        return floatArr;
-    }
+             if (stringArr.length != 3)
+                 throw new Exception("Invalid user input " + userInput); // invalid input
+
+             // begin attempt to convert values to float
+             float[] floatArr = new float[3];
+
+             for (int i = 0; i < 3; ++i) {
+                 floatArr[i] = Float.parseFloat(stringArr[i]); // throws exception if can not parse
+                 if (floatArr[i] < 1.0 || floatArr[i] > 100.0)
+                     throw new Exception("float out of range (" + floatArr[i] + ")");
+             }
+             return floatArr;
+
+         } catch (Exception e) {
+             throw e; // invalid input
+         }
+     }
 
     private void calculate() {
         // attempt to parse the input
-        float[] floatArr = parseUserInput();
-        if (floatArr == null) {
-            // disp error
+        try {
+            float[] floatArr = parseUserInput();
+            if (floatArr == null) {
+                // exit the app...
+                byeDialog();
+                exitApp(2000);
+                return;
+            }
+            // Valid input; get results and display to screen
+            resultsText.setText(new Triangle(floatArr).getTriangleType());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // display invalid input
             resultsText.setText("Invalid input.  Try Again");
-            return;
         }
-        // Valid input; get results and display to screen
-        resultsText.setText(new Triangle(floatArr).getTriangleType());
+
     }
 
     private View.OnKeyListener setOnKeyEnter() {
         return new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 //If the keyevent is KEYCODE_ENTER
-                System.out.println("*********" + keyEvent.getAction()+ "*****" + keyEvent.getKeyCode());
 //                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
                 if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-
-                // simulate the press of the calculate button and call "calcaulate()"
-                    System.out.println("ENTER PRESSED");
+                    // simulate the press of the calculate button and call "calcaulate()"
                     calculate();
                     return true;
                 }
