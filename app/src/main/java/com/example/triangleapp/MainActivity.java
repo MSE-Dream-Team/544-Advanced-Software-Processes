@@ -3,6 +3,7 @@ package com.example.triangleapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
-                    finish();
+                    byeDialog();
+                    exitApp(2000);
 
                 }
             });
@@ -84,7 +86,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-     public float[] parseUserInput() {
+    private void exitApp(int delay) {
+        Handler handler=new Handler();
+        Runnable r=new Runnable() {
+            public void run() {
+                // this action will occur after the specified delay time
+                finish();
+            }
+        };
+        handler.postDelayed(r, delay);
+    }
+
+    private void byeDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        dialogBuilder.setTitle("Bye!");
+        dialogBuilder.setMessage("Bye!");
+        AlertDialog byeDialog = dialogBuilder.show();
+        byeDialog.show();
+    }
+
+     private float[] parseUserInput() {
 
         String userInput = userValues.getText().toString();
         String[] stringArr;
