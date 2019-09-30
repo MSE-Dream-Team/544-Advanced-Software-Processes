@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void byeDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        dialogBuilder.setTitle("Bye!");
+        dialogBuilder.setTitle("Leaving Triangles App!");
         dialogBuilder.setMessage("Bye!");
         AlertDialog byeDialog = dialogBuilder.show();
         byeDialog.show();
