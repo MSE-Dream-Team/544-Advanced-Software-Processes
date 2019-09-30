@@ -134,7 +134,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void calculate() {
         // attempt to parse the input
+        long startTime = 0;
         try {
+
+            // get the start time of the operatiion
+            startTime = System.currentTimeMillis();
+
             float[] floatArr = parseUserInput();
             if (floatArr == null) {
                 // exit the app...
@@ -142,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 exitApp(2000);
                 return;
             }
+
+
             // Valid input; get results and display to screen
             resultsText.setText(new Triangle(floatArr).getTriangleType());
         } catch (Exception e) {
@@ -149,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // display invalid input
             resultsText.setText(e.getMessage() + "\nTry Again");
         }
+
+        // display the total time taken to perform this operation...
+        System.out.println("***** Elapsed Time " + ((System.currentTimeMillis() - startTime) / 1000.) + " seconds *****");
 
     }
 
