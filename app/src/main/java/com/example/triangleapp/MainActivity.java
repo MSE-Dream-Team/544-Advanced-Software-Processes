@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              stringArr = userInput.contains(",") ? userInput.split(",") : userInput.split(" ");
 
              if (stringArr.length != 3)
-                 throw new Exception("Invalid user input " + userInput); // invalid input
+                 throw new Exception("Invalid user input:\n " + userInput); // invalid input
 
              // begin attempt to convert values to float
              float[] floatArr = new float[3];
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              for (int i = 0; i < 3; ++i) {
                  floatArr[i] = Float.parseFloat(stringArr[i]); // throws exception if can not parse
                  if (floatArr[i] < 1.0 || floatArr[i] > 100.0)
-                     throw new Exception("float out of range (" + floatArr[i] + ")");
+                     throw new Exception("float out of range:\n (" + floatArr[i] + ")");
              }
              return floatArr;
 
