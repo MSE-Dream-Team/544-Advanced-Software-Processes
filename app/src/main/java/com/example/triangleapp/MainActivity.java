@@ -53,34 +53,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //exit button
         if (view == exitBtn) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Exit");
-            builder.setMessage("Are you sure you want to exit?");
-            builder.setPositiveButton("Exit now", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
 
-                    byeDialog();
-                    exitApp(2000);
+            exitDialog();
 
-                }
-            });
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-
-                    dialogInterface.dismiss();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
         }
 
 
         // add other buttons here if needed...
 
+    }
+
+    private void exitDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Exit");
+        builder.setMessage("Are you sure you want to exit?");
+        builder.setPositiveButton("Exit now", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                byeDialog();
+                exitApp(2000);
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void exitApp(int delay) {
@@ -142,9 +148,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             float[] floatArr = parseUserInput();
             if (floatArr == null) {
-                // exit the app...
-                byeDialog();
-                exitApp(2000);
+                // exit the user if he/she really wants to exit the app...
+                exitDialog();
                 return;
             }
 
@@ -166,8 +171,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 //If the keyevent is KEYCODE_ENTER
-//                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+//                if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // simulate the press of the calculate button and call "calcaulate()"
                     calculate();
                     return true;
