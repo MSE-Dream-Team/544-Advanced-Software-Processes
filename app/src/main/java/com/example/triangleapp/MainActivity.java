@@ -120,8 +120,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              // the input string should contain a delimiter of "," or " ", anything else is an invalid delimiter for this app
              stringArr = userInput.contains(",") ? userInput.split(",") : userInput.split(" ");
 
-             if (stringArr.length != 3)
-                 throw new Exception("Invalid user input:\n " + userInput); // invalid input
+             if (stringArr.length < 3)
+                 throw new Exception("Invalid user input:\n " + userInput + "\nNot enough inputs"); // invalid input
+             else if (stringArr.length > 3){
+                 throw new Exception("Invalid user input:\n " + userInput + "\nToo many inputs"); // invalid input
+             }
 
              // begin attempt to convert values to float
              float[] floatArr = new float[3];
@@ -164,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // display the total time taken to perform this operation...
         System.out.println("***** Elapsed Time " + ((System.currentTimeMillis() - startTime) / 1000.) + " seconds *****");
+        //Log.d("***** Elapsed Time " + ((System.currentTimeMillis() - startTime) / 1000.) + " seconds *****");
 
     }
 
