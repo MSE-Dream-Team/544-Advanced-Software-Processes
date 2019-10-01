@@ -121,9 +121,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              stringArr = userInput.contains(",") ? userInput.split(",") : userInput.split(" ");
 
              if (stringArr.length < 3)
-                 throw new Exception("Invalid user input:\n " + userInput + "\nNot enough inputs"); // invalid input
+                 throw new Exception("\nNot enough inputs"); // invalid input
              else if (stringArr.length > 3){
-                 throw new Exception("Invalid user input:\n " + userInput + "\nToo many inputs"); // invalid input
+                 throw new Exception("\nToo many inputs"); // invalid input
              }
 
              // begin attempt to convert values to float
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              for (int i = 0; i < 3; ++i) {
                  floatArr[i] = Float.parseFloat(stringArr[i]); // throws exception if can not parse
                  if (floatArr[i] < 1.0 || floatArr[i] > 100.0)
-                     throw new Exception("float out of range:\n (" + floatArr[i] + ")");
+                     throw new Exception("\nfloat out of range:\n (" + floatArr[i] + ")");
              }
              return floatArr;
 
@@ -144,9 +144,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void calculate() {
         // attempt to parse the input
         long startTime = 0;
+
+        String userInputForOutput = '[' + userValues.getText().toString() + "] = ";
+
         try {
 
-            // get the start time of the operatiion
+            // get the start time of the operation
             startTime = System.currentTimeMillis();
 
             float[] floatArr = parseUserInput();
@@ -158,11 +161,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             // Valid input; get results and display to screen
-            resultsText.setText(new Triangle(floatArr).getTriangleType());
+            resultsText.setText(userInputForOutput + new Triangle(floatArr).getTriangleType());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             // display invalid input
-            resultsText.setText(e.getMessage() + "\nTry Again");
+            resultsText.setText(userInputForOutput + e.getMessage() + "\nTry Again");
         }
 
         // display the total time taken to perform this operation...
